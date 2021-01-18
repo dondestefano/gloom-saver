@@ -17,10 +17,11 @@ const useEmpty = () => {
 }
 
 const deck = () => {
-  const [activeDeck, updateActiveDeck] = useState(() => useDefault());
+  const [activeDeck, updateActiveDeck] = useState(() => shuffleDeck(useDefault()));
   const [drawnDeck, updateDrawnDeck] = useState(() => useEmpty());
 
   let initialDeck = useDefault();
+
 
 
   const drawTop = () => {
@@ -29,13 +30,29 @@ const deck = () => {
     updateActiveDeck(activeDeck.slice(1));
 
     if (activeDeck.length === 1) {
-      console.log("resetting")
       resetActiveDeck();
     }
   }
 
+  
+  //"Fisher–Yates shuffle"
+  function shuffleDeck(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue
+    }
+
+    return array;
+  }
+
   const resetActiveDeck = () => {
-    updateActiveDeck(initialDeck);
+    updateActiveDeck(shuffleDeck(initialDeck));
   }
 
   return [activeDeck, drawnDeck, drawTop]
