@@ -6,35 +6,23 @@ export function reducerFunction(state = { activeDeck: [] }, action) {
   const { activeDeck } = state;
   switch (action.type) {
     case SET_DECK:
+        console.log('** Set **');
         let deck = action.payload
-        return {activeDeck: [standardDeck]}
+        return {activeDeck: [deck]}
     case ADD_CARD:
+        console.log('** Add **');
       const newCard = action.payload;
       console.log('adding card: ', newCard);
       console.log('array after adding card: ', [...activeDeck, newCard]);
       return { activeDeck: [...activeDeck, newCard] };
     case DRAW_CARD:
+        console.log('** Draw **');
       return {activeDeck: [activeDeck.slice(1)]};
-    case SHUFFLE_DECK:
-        return {activeDeck: [shuffleDeck(activeDeck)]}
     default:
+        console.log('** Default state **');
         return state;
   }
 }
 
-function shuffleDeck(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-  
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-  
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue
-    }
-
-    return array;
-  }
 
 export const getDeck = (state) => state.activeDeck;
